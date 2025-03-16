@@ -1,6 +1,8 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 use std::io;
+mod user;
+mod message;
 
 // Structure for JSON serialization/deserialization
 #[derive(Serialize, Deserialize)]
@@ -29,17 +31,27 @@ async fn health_check() -> impl Responder {
     HttpResponse::Ok().body("Server is up and running!")
 }
 
+// Test endpoint
+async fn test() -> impl Responder {
+    HttpResponse::Ok().body("This is a test endpoint")
+}
+
+// Test async endpoint
+async fn test_async() -> impl Responder {
+    HttpResponse::Ok().body("This is a test endpoint")
+}
+
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    println!("Starting server at http://127.0.0.1:8080");
-    
     HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(index))
             .route("/info", web::get().to(get_info))
             .route("/health", web::get().to(health_check))
+            .route("/test", web::get().to(test))
+            .route("/test_async", web::get().to(test_async))
     })
-    .bind("127.0.0.1:8080")?
+    .bind("0.0.0.0:8080")?
     .run()
     .await
 }

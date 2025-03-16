@@ -25,7 +25,7 @@ pub mod permissions {
 
 impl User {
     /// Creates a new user
-    pub fn new(username: &str, canonical_name &str, permission_level: u8, public_key: RsaPublicKey) -> Result<Self, &'static str> {
+    pub fn new(username: &str, canonical_name: &str, permission_level: u8, public_key: RsaPublicKey) -> Result<Self, &'static str> {
         if username.len() > 64 {
             return Err("Username too long, maximum length is 64 characters");
         }
